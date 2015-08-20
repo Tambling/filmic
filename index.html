@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Filmic: Search and Browse Movies</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body ng-app="filmic" ng-controller="homeCtrl">
+  <div >
+    <form name="titleSearch">
+    <input ng-model="title" ng-change="getResults(title)"
+    ng-model-options="{debounce: 400}">
+    </form>
+    <div ng-show="titleSearch.$pristine">
+      Enter title above.
+    </div>
+    <div ng-hide="results || titleSearch.$pristine">
+      No results!
+    </div>
+    <div ng-show="results" ng-repeat="result in results">
+      <a ng-click="setMovie(result)">{{result.Title}} ({{result.Year}})</a>
+    </div>
+     <div ng-show="active">
+      {{active.Title}}
+      {{active.Year}}
+      {{active.Rated}}
+      {{active.Released}}
+      {{active.Plot}}
+    </div>
+ </div>
+
+  <script
+    src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js">
+  </script>
+  <script src="app.js"></script>
+</body>
