@@ -1,12 +1,24 @@
-body {
-  min-width: 995px;
-}
-
 .content {
   padding: 15px;
+  padding-bottom: 0px;
+  padding-top: 65px;
   height: 100%;
   width: 100%;
   position: fixed;
+}
+
+nav {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 50px;
+  background-color: #eeeeee;
+  line-height: 50px;
+  vertical-align: middle;
+  font-weight: bold;
+  font-size: 36px;
+  padding-left: 25px;
 }
 
 .search, .search-results, .selected { 
@@ -18,4 +30,28 @@ body {
 
 .results {
   margin-bottom: 50px;
+}
+
+.selected {
+  padding: 15px;
+}
+
+.selected .row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.poster, .headlines {
+  float: left;
+}
+.headlines h1 {
+  margin-top: 0;
+}
+  
+.poster img {
+  width: 100%;
+}
+
+.details {
+  clear: both;
 }
