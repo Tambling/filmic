@@ -8,10 +8,10 @@ app.factory('omdbClient', ['$http', function($http){
       i: id,
       plot: "full",
       tomatoes: true
-    }
+    };
 
-    return $http.get('http://www.omdbapi.com/?', {params: params}).
-      then(function(res){
+    return $http.get('http://www.omdbapi.com/?', {params: params})
+      .then(function(res){
         return(res.data);
       });
     };
@@ -21,14 +21,16 @@ app.factory('omdbClient', ['$http', function($http){
       s: title,
       type: 'movie'
     };
-    return $http.get('http://www.omdbapi.com/?', {params: params}).then(function(res){
-      var data = res.data
-      if(data.hasOwnProperty('Search')){
-        return data.Search;
-      } else {
-        return null;
-      }
-    });
+
+    return $http.get('http://www.omdbapi.com/?', {params: params})
+      .then(function(res){
+        var data = res.data
+        if(data.hasOwnProperty('Search')){
+          return data.Search;
+        } else {
+          return false;
+        }
+      });
   };
 
   client.validProperty = function(property){
@@ -44,16 +46,15 @@ app.controller('homeCtrl', [
     'omdbClient',
     function($scope, $location, omdbClient){
       $scope.$on('$locationChangeStart', function(e){
-        console.log(history.state);
-        var path = $location.path()         
-        if(path){ 
-          $scope.setMovie(path.match(/tt\d{7}/)[0]);
+        var idMatch = $location.path().toString().match(/tt\d{7}/)
+        if(idMatch){ 
+          $scope.setMovie(idMatch[0]);
         } else {
-          $scope.active = false;
+          $scope.selected = false;
         }
       });
 
-      $scope.getResults = function(title, oldTitle){
+      $scope.getResults = function(title){
         omdbClient.search(title).then(function(results){
           $scope.results = results;
         });
@@ -61,7 +62,7 @@ app.controller('homeCtrl', [
 
       $scope.setMovie = function(id){
         omdbClient.get(id).then(function(result){
-          $scope.active = result;
+          $scope.selected = result;
         });
       };
 

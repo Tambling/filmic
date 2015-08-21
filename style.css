@@ -25,9 +25,14 @@ nav {
   overflow: scroll;
   padding: 15px;
 }
+
 .search-results {
   height: calc(100% - 49px);
   overflow: scroll;
+}
+
+.results .well:last-child{ 
+  margin-bottom: 0;
 }
 
 .result {
@@ -66,8 +71,4 @@ nav {
   font-size: 18px;
   font-weight: bold;
   color: darkgray;
-}
-
-.results .well:last-child{ 
-  margin-bottom: 0;
 }

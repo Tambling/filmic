@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Filmic: Search and Browse Movies</title>
-  <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
@@ -11,19 +11,23 @@
   <nav>
     <span class="brand">filmic</span>
   </nav>
+
   <div class="content row">
     <div class="search col-xs-4">
-      <form name="searchField">
-        <div class="form-group">
-          <input ng-model="title" ng-change="getResults(title)" 
-          ng-model-options="{debounce: 400}" class="form-control" 
-          placeholder="Title (e.g. &quot;The Social Network&quot;)">
-        </div>
-      </form>
+      <div class="form-group">
+        <input ng-model="title" ng-change="getResults(title)"
+        ng-keyup="$event.keyCode == 13 && getResults(title)"
+        ng-model-options="{debounce: 400}" class="form-control" 
+        placeholder="Title (e.g. &quot;The Social Network&quot;)">
+      </div>
 
       <div class="search-results">
         <div class="status well" ng-show="!title.length">
           Enter title above.
+        </div>
+
+        <div class="status well" ng-hide="results || !title.length">
+          No results!
         </div>
 
         <div class="results" ng-show="results" >
@@ -31,50 +35,48 @@
               {{result.Title}} ({{result.Year}})
           </a>
         </div>
-
-        <div class="status well" ng-hide="results || !title.length">
-          No results!
-        </div>
       </div>
     </div>
 
     <div class="selected col-xs-8">
-      <div ng-hide="active" class="status well">
+      <div ng-hide="selected" class="status well">
         No movie selected.
       </div>
-      <div ng-show="active">
+      
+      <div ng-show="selected">
         <div class="row">
-          <div class="col-xs-4" ng-show="validProperty(active.Poster)">
+          <div class="col-xs-4" ng-show="validProperty(selected.Poster)">
             <div class="poster well">
-              <img ng-src="{{active.Poster}}" />
+              <img ng-src="{{selected.Poster}}" />
             </div>
           </div>
 
           <div class="col-xs-8">
             <div class="headlines">
-              <h1>{{active.Title}}</h1>
+              <h1>{{selected.Title}}</h1>
               <h2>
                 <span
-                  ng-show="validProperty(active.Year)">{{active.Year}}</span>
-               <span ng-show="validProperty(active.Year) &&
-                 validProperty(active.Rated)"> | </span>
+                  ng-show="validProperty(selected.Year)">{{selected.Year}}</span>
+               <span ng-show="validProperty(selected.Year) &&
+                 validProperty(selected.Rated)"> | </span>
                <span
-                  ng-show="validProperty(active.Rated)">{{active.Rated}}</span></h2>
-              <h4 ng-show="validProperty(active.Director)">Directed by {{active.Director}}</h4>
-              <h4 ng-show="validProperty(active.Writer)">Written by {{active.Writer}}</h4>
-              <h4 ng-show="validProperty(active.Actors)">Starring {{active.Actors}}</h4>
-              <h4 ng-show="validProperty(active.Genre)">{{active.Genre}}</h4>
+                  ng-show="validProperty(selected.Rated)">{{selected.Rated}}</span></h2>
+              <h4 ng-show="validProperty(selected.Director)">Directed by {{selected.Director}}</h4>
+              <h4 ng-show="validProperty(selected.Writer)">Written by {{selected.Writer}}</h4>
+              <h4 ng-show="validProperty(selected.Actors)">Starring {{selected.Actors}}</h4>
+              <h4 ng-show="validProperty(selected.Genre)">{{selected.Genre}}</h4>
             </div>
           </div>
         </div>
+
         <div class="details">
-          <p ng-show="validProperty(active.Plot)">{{active.Plot}}</p>
+          <p ng-show="validProperty(selected.Plot)">{{selected.Plot}}</p>
           <ul>
-            <li ng-show="validProperty(active.Metascore)">Metascore: {{active.Metascore}}</li>
-            <li ng-show="validProperty(active.tomatoMeter)">Rotten Tomatoes: {{active.tomatoMeter}}% ({{active.tomatoFresh}}
+            <li ng-show="validProperty(selected.Metascore)">Metascore: {{selected.Metascore}}</li>
+            <li ng-show="validProperty(selected.tomatoMeter)">Rotten Tomatoes: {{selected.tomatoMeter}}% ({{selected.tomatoFresh}}
             Fresh)</li>
-            <li ng-show="validProperty(active.imdbRating)">IMDb: {{active.imdbRating}} from {{active.imdbVotes}} Reviews</li>
-            <li ng-show="validProperty(active.Awards)">Accolades: {{active.Awards}}</li>
+            <li ng-show="validProperty(selected.imdbRating)">IMDb: {{selected.imdbRating}} from {{selected.imdbVotes}} Reviews</li>
+            <li ng-show="validProperty(selected.Awards)">Accolades: {{selected.Awards}}</li>
           </ul>
         </div>
       </div>
