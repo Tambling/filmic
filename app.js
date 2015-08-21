@@ -41,30 +41,31 @@ app.factory('omdbClient', ['$http', function($http){
 }]);
 
 app.controller('homeCtrl', [
-    '$scope', 
-    '$location', 
-    'omdbClient',
-    function($scope, $location, omdbClient){
-      $scope.$on('$locationChangeStart', function(e){
-        var idMatch = $location.path().toString().match(/tt\d{7}/)
-        if(idMatch){ 
-          $scope.setMovie(idMatch[0]);
-        } else {
-          $scope.selected = false;
-        }
+  '$scope', 
+  '$location', 
+  'omdbClient',
+  function($scope, $location, omdbClient){
+    $scope.$on('$locationChangeStart', function(e){
+      var idMatch = $location.path().toString().match(/tt\d{7}/)
+      if(idMatch){ 
+        $scope.setMovie(idMatch[0]);
+      } else {
+        $scope.selected = false;
+      }
+    });
+
+    $scope.getResults = function(title){
+      omdbClient.search(title).then(function(results){
+        $scope.results = results;
       });
+    };
 
-      $scope.getResults = function(title){
-        omdbClient.search(title).then(function(results){
-          $scope.results = results;
-        });
-      };
+    $scope.setMovie = function(id){
+      omdbClient.get(id).then(function(result){
+        $scope.selected = result;
+      });
+    };
 
-      $scope.setMovie = function(id){
-        omdbClient.get(id).then(function(result){
-          $scope.selected = result;
-        });
-      };
-
-      $scope.validProperty = omdbClient.validProperty;
-}]);
+    $scope.validProperty = omdbClient.validProperty;
+  }
+]);
