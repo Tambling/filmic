@@ -1,0 +1,21 @@
+body {
+  min-width: 995px;
+}
+
+.content {
+  padding: 15px;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+}
+
+.search, .search-results, .selected { 
+  height: 100%;
+}
+.search-results, .selected {
+  overflow: scroll;
+}
+
+.results {
+  margin-bottom: 50px;
+}
