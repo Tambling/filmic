@@ -27,9 +27,9 @@
         </div>
 
         <div class="results" ng-show="results" >
-          <div ng-click="setMovie(result)" class="well" ng-repeat="result in results">
-            <a>{{result.Title}} ({{result.Year}})</a>
-          </div>
+          <a href="#{{result.imdbID}}" class="well result" ng-repeat="result in results">
+              {{result.Title}} ({{result.Year}})
+          </a>
         </div>
 
         <div class="status well" ng-hide="results || !title.length">
