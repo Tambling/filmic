@@ -44,7 +44,7 @@
       </div>
       <div ng-show="active">
         <div class="row">
-          <div class="col-xs-4">
+          <div class="col-xs-4" ng-show="validProperty(active.Poster)">
             <div class="poster well">
               <img ng-src="{{active.Poster}}" />
             </div>
@@ -53,22 +53,28 @@
           <div class="col-xs-8">
             <div class="headlines">
               <h1>{{active.Title}}</h1>
-              <h2>{{active.Year}} | {{active.Rated}}</h2>
-              <h4>Directed by {{active.Director}}</h4>
-              <h4>Written by {{active.Writer}}</h4>
-              <h4>Starring {{active.Actors}}</h4>
-              <h4>{{active.Genre}}</h4>
+              <h2>
+                <span
+                  ng-show="validProperty(active.Year)">{{active.Year}}</span>
+               <span ng-show="validProperty(active.Year) &&
+                 validProperty(active.Rated)"> | </span>
+               <span
+                  ng-show="validProperty(active.Rated)">{{active.Rated}}</span></h2>
+              <h4 ng-show="validProperty(active.Director)">Directed by {{active.Director}}</h4>
+              <h4 ng-show="validProperty(active.Writer)">Written by {{active.Writer}}</h4>
+              <h4 ng-show="validProperty(active.Actors)">Starring {{active.Actors}}</h4>
+              <h4 ng-show="validProperty(active.Genre)">{{active.Genre}}</h4>
             </div>
           </div>
         </div>
         <div class="details">
-          <p>{{active.Plot}}</p>
+          <p ng-show="validProperty(active.Plot)">{{active.Plot}}</p>
           <ul>
-            <li>Metascore: {{active.Metascore}}</li>
-            <li>Rotten Tomatoes: {{active.tomatoMeter}}% ({{active.tomatoFresh}}
+            <li ng-show="validProperty(active.Metascore)">Metascore: {{active.Metascore}}</li>
+            <li ng-show="validProperty(active.tomatoMeter)">Rotten Tomatoes: {{active.tomatoMeter}}% ({{active.tomatoFresh}}
             Fresh)</li>
-            <li>IMDb: {{active.imdbRating}} from {{active.imdbVotes}} Reviews</li>
-            <li>Accolades: {{active.Awards}}</li>
+            <li ng-show="validProperty(active.imdbRating)">IMDb: {{active.imdbRating}} from {{active.imdbVotes}} Reviews</li>
+            <li ng-show="validProperty(active.Awards)">Accolades: {{active.Awards}}</li>
           </ul>
         </div>
       </div>

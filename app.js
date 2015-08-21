@@ -1,34 +1,40 @@
 var app = angular.module('filmic', []);
 
 app.factory('omdbClient', ['$http', function($http){
-  return {
-    get: function(id){
-      params = {
-        i: id,
-        plot: "full",
-        tomatoes: true
-      }
-      return $http.get('http://www.omdbapi.com/?', {params: params}).
-        then(function(res){
-          return(res.data);
-        });
-    },
-
-    search: function(title){
-      params = {
-        s: title,
-        type: 'movie'
-      };
-      return $http.get('http://www.omdbapi.com/?', {params: params}).then(function(res){
-        var data = res.data
-        if(data.hasOwnProperty('Search')){
-          return data.Search;
-        } else {
-          return null;
-        }
-      });
+  var client = {};
+  
+  client.get = function(id){
+    params = {
+      i: id,
+      plot: "full",
+      tomatoes: true
     }
-  }
+    return $http.get('http://www.omdbapi.com/?', {params: params}).
+      then(function(res){
+        return(res.data);
+      });
+    };
+
+  client.search = function(title){
+    params = {
+      s: title,
+      type: 'movie'
+    };
+    return $http.get('http://www.omdbapi.com/?', {params: params}).then(function(res){
+      var data = res.data
+      if(data.hasOwnProperty('Search')){
+        return data.Search;
+      } else {
+        return null;
+      }
+    });
+  };
+
+  client.validProperty = function(property){
+    return property && property !== 'N/A';
+  };
+
+  return client;
 }]);
 
 app.controller('homeCtrl', ['$scope', 'omdbClient', function($scope, omdbClient){
@@ -43,4 +49,6 @@ app.controller('homeCtrl', ['$scope', 'omdbClient', function($scope, omdbClient)
       $scope.active = result;
     });
   };
+
+  $scope.validProperty = omdbClient.validProperty;
 }]);
